@@ -1,0 +1,32 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = __importDefault(require("express"));
+const dotenv_1 = __importDefault(require("dotenv"));
+const signinRouter_1 = __importDefault(require("./routes/signinRouter"));
+const db_1 = require("./database/db");
+const signupRouter_1 = __importDefault(require("./routes/signupRouter"));
+const userAuthMiddleware_1 = require("./middlewares/userAuthMiddleware");
+const contentRouter_1 = __importDefault(require("./routes/contentRouter"));
+const brainRouter_1 = __importDefault(require("./routes/brainRouter"));
+const tagsRouter_1 = __importDefault(require("./routes/tagsRouter"));
+const linksRouter_1 = __importDefault(require("./routes/linksRouter"));
+const cors_1 = __importDefault(require("cors"));
+dotenv_1.default.config();
+const PORT = process.env.PORT || 3001;
+const app = (0, express_1.default)();
+(0, db_1.connectDB)();
+app.use((0, cors_1.default)());
+app.use(express_1.default.json());
+app.use("/api/v1/signin", signinRouter_1.default);
+app.use("/api/v1/signup", signupRouter_1.default);
+app.use("/api/v1/brain", brainRouter_1.default);
+app.use(userAuthMiddleware_1.userAuthMiddleware);
+app.use("/api/v1/content", contentRouter_1.default);
+app.use("/api/v1/tags", tagsRouter_1.default);
+app.use("/api/v1/links", linksRouter_1.default);
+app.listen(PORT, () => {
+    console.log("listening on port: ", PORT);
+});

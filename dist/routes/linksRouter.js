@@ -1,0 +1,7 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const linkRouter = (0, express_1.Router)();
+const linkController_1 = require("../controllers/linkController");
+linkRouter.post("/", linkController_1.handleCreateLink);
+exports.default = linkRouter;

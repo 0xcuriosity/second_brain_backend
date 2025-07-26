@@ -1,0 +1,27 @@
+import express from "express";
+import dotenv from "dotenv";
+import signInRouter from "./routes/signinRouter";
+import { connectDB } from "./database/db";
+import signUpRouter from "./routes/signupRouter";
+import { userAuthMiddleware } from "./middlewares/userAuthMiddleware";
+import contentRouter from "./routes/contentRouter";
+import brainRouter from "./routes/brainRouter";
+import tagRouter from "./routes/tagsRouter";
+import linkRouter from "./routes/linksRouter";
+import cors from "cors";
+dotenv.config();
+const PORT = process.env.PORT || 3001;
+const app = express();
+connectDB();
+app.use(cors());
+app.use(express.json());
+app.use("/api/v1/signin", signInRouter);
+app.use("/api/v1/signup", signUpRouter);
+app.use("/api/v1/brain", brainRouter);
+app.use(userAuthMiddleware);
+app.use("/api/v1/content", contentRouter);
+app.use("/api/v1/tags", tagRouter);
+app.use("/api/v1/links", linkRouter);
+app.listen(PORT, () => {
+  console.log("listening on port: ", PORT);
+});
