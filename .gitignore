@@ -1,0 +1,8 @@
+# Node modules
+node_modules/
+
+# Environment variables
+.env
+
+# Optional: Ignore env example templates if you use .env.local, .env.development etc.
+.env.*.local
